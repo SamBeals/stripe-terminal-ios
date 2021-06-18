@@ -14,7 +14,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Parameters for creating an `SCPPaymentIntent`.
+ Parameters for creating an `SCPPaymentIntent`. Pass an object of this type
+ into `Terminal.shared.createPaymentIntent()`.
 
  @see https://stripe.com/docs/api/payment_intents/create
  */
@@ -30,6 +31,12 @@ NS_SWIFT_NAME(PaymentIntentParameters)
  Three-letter ISO currency code, in lowercase. Must be a supported currency.
  */
 @property (nonatomic, readonly) NSString *currency;
+
+/**
+ The list of payment method types that this PaymentIntent is allowed to use.
+ The default is value for this is ["card_present"].
+ */
+@property (nonatomic, readonly) NSArray<NSString *> *paymentMethodTypes;
 
 /**
  Set of key-value pairs that you can attach to an object. This can be useful for
@@ -119,9 +126,31 @@ NS_SWIFT_NAME(PaymentIntentParameters)
  feature, see https://stripe.com/docs/terminal/testing#test-card
 
  @param currency    The currency of the payment.
+
+ This initializer will use the default paymentMethodTypes value: ["card_present"]
  */
 - (instancetype)initWithAmount:(NSUInteger)amount
                       currency:(NSString *)currency;
+
+/**
+ Initializes SCPPaymentIntentParameters with the given parameters.
+
+ @note In testmode, only amounts ending in "00" will be approved. All other
+ amounts will be declined by the Stripe API. For more information about this
+ feature, see https://stripe.com/docs/terminal/testing#test-card
+
+ @param amount      The amount of the payment, provided in the currency's
+ smallest unit.
+
+ @param currency    The currency of the payment.
+
+ @param paymentMethodTypes The payment method types allowed for this
+ payment. Currently allowed payment method types for a Terminal transaction are
+ "card_present" and "interac_present".
+ */
+- (instancetype)initWithAmount:(NSUInteger)amount
+                      currency:(NSString *)currency
+            paymentMethodTypes:(NSArray<NSString *> *)paymentMethodTypes;
 
 /**
  Use `initWithAmount:currency:`

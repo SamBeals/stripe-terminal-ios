@@ -8,11 +8,13 @@
 //  Use of this SDK is subject to the Stripe Terminal Terms:
 //  https://stripe.com/terminal/legal
 //
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- The possible methods for discovering a reader.
+ The possible methods for discovering a reader. Pass a variant of this enum
+ into your `SCPDiscoveryConfiguration`.
 
  @see https://stripe.com/docs/terminal/readers/connecting
  */

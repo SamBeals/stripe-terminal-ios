@@ -11,7 +11,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "SCPErrors.h"
+#import <StripeTerminal/SCPErrors.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -39,12 +39,6 @@ NS_SWIFT_NAME(ProcessRefundError)
  this property contains additional details about the error.
 */
 @property (nonatomic, nullable, readonly) NSError *requestError;
-
-/**
- If `processRefund` failed because the payment method was declined, this
- property contains the decline code.
-*/
-@property (nonatomic, nullable, readonly) NSString *failureReason;
 
 /**
  You cannot directly instantiate this class.
