@@ -27,10 +27,6 @@ typedef NS_ENUM(NSUInteger, SCPDeviceType) {
 
     /**
      The Verifone P400 countertop reader.
-     
-     Note: Verifone P400 support in the iOS SDK is in beta, and some functionality
-     is unavailable. See the [project Readme](https://stripe.dev/stripe-terminal-ios/docs#verifone-p400-support-in-the-ios-sdk)
-     or the latest changelog for more information.
 
      @see https://stripe.com/docs/terminal/readers/verifone-p400
      */
@@ -44,6 +40,13 @@ typedef NS_ENUM(NSUInteger, SCPDeviceType) {
      @see https://stripe.com/docs/terminal/readers/bbpos-wisepad3
      */
     SCPDeviceTypeWisePad3,
+
+    /**
+     The Stripe Reader M2 mobile reader.
+
+     Support for this reader is currently in beta.
+     */
+    SCPDeviceTypeStripeM2,
 
     /**
      The BBPOS WisePOS E countertop reader.
