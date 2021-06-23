@@ -9,8 +9,8 @@
 //  https://stripe.com/terminal/legal
 //
 
-#import "SCPPaymentIntent.h"
 #import <Foundation/Foundation.h>
+#import <StripeTerminal/SCPPaymentIntent.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
