@@ -36,6 +36,8 @@
 #import <StripeTerminal/SCPInternetConnectionConfiguration.h>
 #import <StripeTerminal/SCPJSONDecodable.h>
 #import <StripeTerminal/SCPListLocationsParameters.h>
+#import <StripeTerminal/SCPLocalMobileConnectionConfiguration.h>
+#import <StripeTerminal/SCPLocalMobileReaderDelegate.h>
 #import <StripeTerminal/SCPLocation.h>
 #import <StripeTerminal/SCPLocationStatus.h>
 #import <StripeTerminal/SCPLogLevel.h>

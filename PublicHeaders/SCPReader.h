@@ -168,10 +168,12 @@ NS_SWIFT_NAME(Reader)
  */
 @property (nonatomic, nullable, readonly) NSString *ipAddress;
 
+#pragma mark Internet Reader and Apple Built-In Reader Properties
+
 /**
  The networking status of the reader: either `offline` or `online`. Note that
  the Chipper 2X and the WisePad 3's statuses will always be `offline`.
- (Verifone P400 only.)
+ (Internet Readers and Apple Built-In readers only).
  */
 @property (nonatomic, readonly) SCPReaderNetworkStatus status;
 

@@ -19,6 +19,7 @@
 #import <StripeTerminal/SCPConnectionStatus.h>
 #import <StripeTerminal/SCPDeviceType.h>
 #import <StripeTerminal/SCPDiscoveryMethod.h>
+#import <StripeTerminal/SCPLocalMobileReaderDelegate.h>
 #import <StripeTerminal/SCPLogLevel.h>
 #import <StripeTerminal/SCPPaymentStatus.h>
 #import <StripeTerminal/SCPReaderEvent.h>
@@ -30,13 +31,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The current version of this library.
  */
-static NSString *const SCPSDKVersion = @"2.13.0";
+static NSString *const SCPSDKVersion = @"2.14.0";
 
 @class SCPCancelable,
     SCPBluetoothConnectionConfiguration,
     SCPDiscoveryConfiguration,
     SCPInternetConnectionConfiguration,
     SCPListLocationsParameters,
+    SCPLocalMobileConnectionConfiguration,
     SCPPaymentIntentParameters,
     SCPReadReusableCardParameters;
 
@@ -67,7 +69,7 @@ static NSString *const SCPSDKVersion = @"2.13.0";
  example application](https://github.com/stripe/stripe-terminal-ios/blob/master/Example/Example/TerminalDelegateAnnouncer.swift).
  */
 NS_SWIFT_NAME(Terminal)
-API_AVAILABLE(ios(10.0))
+API_AVAILABLE(ios(11.0))
 @interface SCPTerminal : NSObject
 
 #pragma mark Initializing and accessing the SCPTerminal singleton
@@ -188,6 +190,27 @@ API_AVAILABLE(ios(10.0))
 #pragma mark Reader discovery, connection, and updates
 
 /**
+ Use this method to determine whether the mobile device supports a given reader type
+ using a particular discovery method. This is useful for the Local Mobile reader
+ discovery method where support will vary according to operating system
+ and hardware capabilities.
+ @param deviceType      Reader device type to determine support for.
+ @param discoveryMethod Associated discovery method.
+ @param simulated       Determines whether to check for availability of
+                        simulated discovery to discover a device simulator.
+                        The Terminal SDK comes with the ability to simulate behavior
+                        without using physical hardware. This makes it easy to
+                        quickly test your integration end-to-end,
+                        from pairing with a reader to taking payments.
+ @param error           If not supported, an error indicating the reason.
+ @returns               YES if supported, NO otherwise.
+ */
+- (BOOL)supportsReadersOfType:(SCPDeviceType)deviceType
+              discoveryMethod:(SCPDiscoveryMethod)discoveryMethod
+                    simulated:(BOOL)simulated
+                        error:(NSError **)error NS_REFINED_FOR_SWIFT;
+
+/**
  Begins discovering readers based on the given discovery configuration.
 
  When `discoverReaders` is called, the terminal begins scanning for readers using
@@ -295,6 +318,54 @@ API_AVAILABLE(ios(10.0))
 - (void)connectInternetReader:(SCPReader *)reader
              connectionConfig:(nullable SCPInternetConnectionConfiguration *)connectionConfig
                    completion:(SCPReaderCompletionBlock)completion NS_SWIFT_NAME(connectInternetReader(_:connectionConfig:completion:));
+
+/**
+ Attempts to connect to the given Local Mobile reader with a given
+ connection configuration.
+
+ To connect to a Local Mobile reader, your app must register that reader to a
+ [Location](https://stripe.com/docs/api/terminal/locations/object) upon connection.
+ You should create a `SCPLocalMobileConnectionConfiguration`
+before connecting which specifies the location to which this
+ reader belongs.
+
+ Throughout the lifetime of the connection, the reader will communicate
+ with your app via the `SCPLocalMobileReaderDelegate` as appropriate.
+
+ If the connection succeeds, the completion block will be called with the
+ connected reader, and `SCPTerminal.connectionStatus` will change to `.connected`.
+
+ If the connection fails, the completion block will be called with an error.
+
+ The SDK must be actively discovering readers in order to connect to one.
+ The discovery process will stop if this connection request succeeds, otherwise
+ the SDK will continue discovering.
+
+ When this method is called, the SDK uses a connection token and the given
+ reader information to register the reader to your Stripe account. If the SDK
+ does not already have a connection token, it will call the `fetchConnectionToken`
+ method in your `SCPConnectionTokenProvider` implementation.
+
+ Note that during connection, an update may occur to ensure that the
+ local mobile reader has the most up to date software and configurations.
+
+ @see https://stripe.com/docs/terminal/readers/connecting
+
+ @param reader           The reader to connect to. This should be a reader
+                         recently returned to the `didUpdateDiscoveredReaders:` method in
+                         the discovery delegate.
+ @param delegate         The delegate used during the lifetime of the connection.
+                         See `SCPLocalMobileReaderDelegate`.
+ @param connectionConfig The connection configuration for options while
+                         connecting to a reader.
+                         See `SCPLocalMobileConnectionConfiguration` for more details.
+ @param completion       The completion block called when the command completes.
+ */
+- (void)connectLocalMobileReader:(SCPReader *)reader
+                        delegate:(id<SCPLocalMobileReaderDelegate>)delegate
+                connectionConfig:(SCPLocalMobileConnectionConfiguration *)connectionConfig
+                      completion:(SCPReaderCompletionBlock)completion
+    NS_SWIFT_NAME(connectLocalMobileReader(_:delegate:connectionConfig:completion:));
 
 /**
  Retrieves a list of `SCPLocation` objects belonging to your merchant. You must specify

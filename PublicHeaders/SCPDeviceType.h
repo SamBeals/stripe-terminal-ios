@@ -54,6 +54,13 @@ typedef NS_ENUM(NSUInteger, SCPDeviceType) {
     SCPDeviceTypeWisePosE,
 
     /**
+     The BBPOS WisePOS E DevKit countertop reader.
+
+     @see https://stripe.com/docs/terminal/readers/bbpos-wisepos-e
+     */
+    SCPDeviceTypeWisePosEDevKit,
+
+    /**
      The BBPOS Etna countertop reader.
 
      :nodoc: Support for this reader is not generally available.
@@ -78,6 +85,11 @@ typedef NS_ENUM(NSUInteger, SCPDeviceType) {
      The Stripe S7 countertop reader.
      */
     SCPDeviceTypeStripeS700,
+
+    /**
+     Apple Built-In reader.
+     */
+    SCPDeviceTypeAppleBuiltIn,
 } NS_SWIFT_NAME(DeviceType);
 
 NS_ASSUME_NONNULL_END

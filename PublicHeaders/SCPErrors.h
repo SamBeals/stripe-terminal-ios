@@ -160,6 +160,11 @@ typedef NS_ERROR_ENUM(SCPErrorDomain, SCPError){
      */
     SCPErrorReaderTippingParameterInvalid = 1950,
 
+    /**
+     The provided location ID parameter was invalid.
+     */
+    SCPErrorInvalidLocationIdParameter = 1960,
+
     /*
      USER ERRORS
      */
@@ -247,6 +252,46 @@ typedef NS_ERROR_ENUM(SCPErrorDomain, SCPError){
      */
     SCPErrorCardLeftInReader = 2850,
 
+    /**
+     The command was not permitted to execute by the operating system.
+     This can happen for a number of reasons, but most commonly:
+     - Your application does not have the necessary entitlements.
+     - Your application bundle is invalid.
+     */
+    SCPErrorCommandNotAllowed = 2900,
+    /**
+     The mobile device on which the app is running is in an unsupported
+     configuration. Verify that the device is running a supported version of
+     iOS and that the mobile device has the capability you are attempting to use.
+     */
+    SCPErrorUnsupportedMobileDeviceConfiguration = 2910,
+    /**
+     The mobile device on which the app is running must have a passcode set.
+     */
+    SCPErrorPasscodeNotEnabled = 2920,
+    /**
+     The card reader cannot be used while a phone call is active.
+     */
+    SCPErrorCommandNotAllowedDuringCall = 2930,
+    /**
+     An attempt was made to charge an amount not supported by the reader.
+     */
+    SCPErrorInvalidAmount = 2940,
+    /**
+     An attempt was made to charge an amount in a currency not supported by the reader.
+     */
+    SCPErrorInvalidCurrency = 2950,
+    /**
+     Failed to accept reader-specific terms of service because there is no iCloud
+     user signed in. Direct the user to sign into an appropriate iCloud account
+     via iOS Settings and try again.
+     */
+    SCPErrorAppleBuiltInReaderTOSAcceptanceRequiresiCloudSignIn = 2960,
+    /**
+     The user cancelled reader-specific terms of service acceptance.
+     */
+    SCPErrorAppleBuiltInReaderTOSAcceptanceCanceled = 2970,
+
     /*
      READER ERRORS
      */
@@ -266,6 +311,11 @@ typedef NS_ERROR_ENUM(SCPErrorDomain, SCPError){
      Could not communicate with the reader.
      */
     SCPErrorReaderCommunicationError = 3060,
+    /**
+     NFC functionality is disabled.
+     Among other things, it may indicate that the app does not have permission to use NFC.
+     */
+    SCPErrorNFCDisabled = 3100,
     /**
      Generic Bluetooth error.
 
@@ -352,6 +402,38 @@ typedef NS_ERROR_ENUM(SCPErrorDomain, SCPError){
      The Bluetooth reader has disconnected and we are attempting to reconnect.
      */
     SCPErrorBluetoothReconnectStarted = 3890,
+
+    /**
+     An attempt was made to interact with the reader while the the app is in the background.
+     */
+    SCPErrorReaderNotAccessibleInBackground = 3900,
+    /**
+     Preparing the Apple Built-In reader to collect payments failed.
+     Try connecting again.
+     */
+    SCPErrorAppleBuiltInReaderFailedToPrepare = 3910,
+    /**
+     This device cannot be used to process using the Apple Built-In reader as it has been banned.
+     */
+    SCPErrorAppleBuiltInReaderDeviceBanned = 3920,
+    /**
+     The operation could not be completed because the reader-specific terms of service have
+     not yet been accepted. Try connecting again.
+     */
+    SCPErrorAppleBuiltInReaderTOSNotYetAccepted = 3930,
+    /**
+     Failed to accept reader-specific terms of service using the signed-in Apple ID.
+     Ensure the Apple ID is still active and in a good standing and try again.
+     */
+    SCPErrorAppleBuiltInReaderTOSAcceptanceFailed = 3940,
+    /**
+     This merchant account cannot be used with Apple Built-In reader as it has been blocked.
+     */
+    SCPErrorAppleBuiltInReaderMerchantBlocked = 3950,
+    /**
+     This merchant account cannot be used with the Apple Built-In reader as it is invalid.
+     */
+    SCPErrorAppleBuiltInReaderInvalidMerchant = 3960,
 
     /*
      UNEXPECTED ERRORS
@@ -522,5 +604,13 @@ FOUNDATION_EXPORT SCPErrorKey SCPErrorKeyStripeAPIPaymentIntent;
  to your users, but may want to inspect it yourself.
  */
 FOUNDATION_EXPORT SCPErrorKey SCPErrorKeyReaderMessage;
+
+/**
+ If an Apple Built-In reader fails to connect due to a device ban and the error
+ has an associated ban expiry date, the `NSDate` will be returned
+ under this key.
+ @see SCPErrorAppleBuiltInReaderDeviceBanned
+ */
+FOUNDATION_EXPORT SCPErrorKey SCPErrorKeyDeviceBannedUntilDate;
 
 NS_ASSUME_NONNULL_END

@@ -73,6 +73,19 @@ typedef NS_ENUM(NSUInteger, SCPDiscoveryMethod) {
      @see https://stripe.com/docs/api/terminal/readers/list
      */
     SCPDiscoveryMethodInternet,
+
+    /**
+     The Local Mobile discovery method searches for any readers built into the
+     merchant device that are supported by Stripe Terminal.
+     When discovering a reader with this method `didUpdateDiscoveredReaders`
+     will only be called once with a list of discovered readers, if any.
+     An error may be provided if a discovery attempt is made in an
+     on a device without hardware support for the Apple Built-In reader or
+     one running an unsupported version of iOS.
+
+     @see https://stripe.com/docs/terminal/payments/setup-reader/tap-on-mobile-ios
+     */
+    SCPDiscoveryMethodLocalMobile,
 } NS_SWIFT_NAME(DiscoveryMethod);
 
 NS_ASSUME_NONNULL_END
