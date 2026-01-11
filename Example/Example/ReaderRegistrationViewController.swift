@@ -66,6 +66,12 @@ class ReaderRegistrationViewController: TableViewController, DiscoveryDelegate, 
         title = "Register Reader"
         self.addKeyboardDisplayObservers()
 
+        // Preselect your specific Stripe Location so registration uses it by default.
+        self.selectedLocationStub = LocationStub(
+            stripeId: "tml_GV9bCglOApaios",
+            displayName: "tml_GV9bCglOApaios"
+        )
+
         let cancelButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(dismissAction))
         self.cancelButton = cancelButton
         navigationItem.leftBarButtonItem = cancelButton

@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
      static var backendUrl: String? = "https://your-app-backend.com"
      */
-    static var backendUrl: String?
+    static var backendUrl: String? = "http://192.168.0.134:4242"
 
     static var apiClient: APIClient?
 

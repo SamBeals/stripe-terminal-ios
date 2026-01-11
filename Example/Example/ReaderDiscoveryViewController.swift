@@ -66,6 +66,13 @@ class ReaderDiscoveryViewController: TableViewController, CancelableViewControll
         super.viewDidLoad()
         self.addKeyboardDisplayObservers()
 
+        // Preselect your specific Stripe Location so connections will use it by default.
+        // If this ID exists in your account, the SDK will use it when building connection configurations.
+        self.selectedLocationStub = LocationStub(
+            stripeId: "tml_GWCmogANWkpxV7",
+            displayName: "tml_GWCmogANWkpxV7"
+        )
+
         let cancelButton = UIBarButtonItem(
             title: "Cancel",
             style: .plain,
