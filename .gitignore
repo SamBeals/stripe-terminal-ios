@@ -57,3 +57,14 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
+
+# Xcode / iOS
+DerivedData/
+*.xcframework/
+*.dSYM
+*.dSYM.zip
+
+# Carthage / SwiftPM build artifacts
+Carthage/Build/
+.build/
+
